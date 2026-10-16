@@ -84,8 +84,43 @@ $('checkPassport').onclick=()=>{if(!listenComplete)return;const ans=P.map((_,i)=
 function show(id){for(const x of ['welcome','quiz','jump','results'])$(x).classList.add('hidden');$(id).classList.remove('hidden');$(id).scrollIntoView({block:'start',behavior:'smooth'})}
 function count(){return S.answers.filter(x=>Number.isInteger(x)).length}function score(){return Q.reduce((n,q,i)=>n+(S.answers[i]===q[2]?1:0),0)}
 function quizNext(){if(count()===20){finishAcademic();return}if(count()>0&&count()%5===0&&S.round<count()/5){S.round=count()/5;S.phase='jump';save();startJump(false);return}S.phase='quiz';save();renderQuestion();show('quiz')}
-function renderQuestion(){const i=count(),q=Q[i];if(!q){finishAcademic();return}$('progress').textContent='🧠 QUESTION '+(i+1)+' / 20 · 4 QUESTION ROUNDS';$('question').textContent=q[0];$('options').replaceChildren();$('quizStatus').textContent='Think carefully. Correct answers are revealed at the end.';$('answerContinue').disabled=true;for(let j=0;j<q[1].length;j++){const b=document.createElement('button');b.textContent='ABCD'[j]+'. '+q[1][j];b.onclick=()=>{if(Number.isInteger(S.answers[i]))return;S.answers[i]=j;save();[...$('options').children].forEach(x=>x.disabled=true);b.classList.add('selected');$('quizStatus').textContent='✅ Answer saved. Read the question before continuing.';const started=performance.now();const tick=()=>{if(!document.contains($('answerContinue'))||S.phase!=='quiz')return;const remain=Math.ceil((MINS-(performance.now()-started))/1000);if(remain>0){$('answerContinue').textContent='⏳ CONTINUE IN '+remain+'s';setTimeout(tick,250)}else{$('answerContinue').disabled=false;$('answerContinue').textContent='➡ NEXT CHALLENGE'}};tick()};$('options').append(b)}}
-$('answerContinue').onclick=quizNext;
+let questionOpenedAt=0,questionToken=0;
+function renderQuestion(){
+  const i=count(),q=Q[i];if(!q){finishAcademic();return}
+  questionOpenedAt=performance.now();const token=++questionToken;
+  $('progress').textContent='🧠 QUESTION '+(i+1)+' / 20 · 4 QUESTION ROUNDS';
+  $('question').textContent=q[0];$('options').replaceChildren();
+  $('quizStatus').textContent='Think carefully. Correct answers are revealed at the end.';
+  $('answerContinue').disabled=true;
+  $('answerContinue').textContent='➡ ANSWER TO CONTINUE';
+  function updateContinue(){
+    if(token!==questionToken||S.phase!=='quiz')return;
+    const answered=Number.isInteger(S.answers[i]);
+    const remain=Math.ceil((MINS-(performance.now()-questionOpenedAt))/1000);
+    if(answered&&remain<=0){
+      $('answerContinue').disabled=false;
+      $('answerContinue').textContent='➡ NEXT CHALLENGE';
+    }else if(answered){
+      $('answerContinue').disabled=true;
+      $('answerContinue').textContent='⏳ CONTINUE IN '+remain+'s';
+      setTimeout(updateContinue,250);
+    }
+  }
+  for(let j=0;j<q[1].length;j++){
+    const b=document.createElement('button');
+    b.textContent='ABCD'[j]+'. '+q[1][j];
+    b.onclick=()=>{
+      if(Number.isInteger(S.answers[i]))return;
+      S.answers[i]=j;save();
+      [...$('options').children].forEach(x=>x.disabled=true);
+      b.classList.add('selected');
+      $('quizStatus').textContent='✅ Answer saved. The 8-second reading period started when this question appeared.';
+      updateContinue();
+    };
+    $('options').append(b);
+  }
+}
+$('answerContinue').onclick=()=>{if(S.phase!=='quiz'||!Number.isInteger(S.answers[count()-1])||performance.now()-questionOpenedAt<MINS)return;quizNext()};
 $('openHelp').onclick=()=>{$('help').classList.remove('hidden');$('helpContents').replaceChildren();const v=document.createElement('div');v.className='vocab';V.forEach(x=>{const d=document.createElement('div');d.innerHTML='<strong>'+x[0]+'</strong>'+x[1];v.append(d)});$('helpContents').append(v);const text=document.createElement('div');text.innerHTML=$('article').innerHTML;$('helpContents').append(text)};
 $('closeHelp').onclick=()=>$('help').classList.add('hidden');
 $('start').onclick=()=>{if(!listenComplete||sessionStorage.getItem('star-jumper-pass')!=='yes'){alert('Finish the audio and passport first.');return}const n=$('studentName').value.trim(),section=$('studentSection').value.trim();if(n.split(/\s+/).length<2||!section){alert('Please enter your FIRST and LAST name, plus your class section.');return}S={...DEFAULT,name:n,section,answers:[],repairDone:[],repairPlan:[],phase:'quiz'};save();quizNext()};
