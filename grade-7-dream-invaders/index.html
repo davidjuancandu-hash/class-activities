@@ -32,7 +32,7 @@ canvas.addEventListener('pointermove',e=>{if(s.stage!=='game')return;let r=canva
 document.addEventListener('keydown',e=>{if(helpOpen||s.stage!=='game'||activeQuestion>=0||['INPUT','TEXTAREA','BUTTON'].includes(e.target.tagName))return;if(e.key==='ArrowLeft'){e.preventDefault();move(player-34)}else if(e.key==='ArrowRight'){e.preventDefault();move(player+34)}else if(e.code==='Space'){e.preventDefault();shoot()}});
 $('restart').onclick=()=>{bossStop();if(!confirm('Start a new game and clear the saved answers on this device?'))return;try{localStorage.removeItem(KEY)}catch(e){}s={name:'',section:'',stage:'welcome',answers:[]};$('name').value='';$('section').value='';show('welcome');window.scrollTo(0,0)};
 $('download').onclick=()=>{const n=correct();let lines=['DREAM INVADERS — GRADE 7 UNIT 6','Student: '+s.name,'Section: '+s.section,'Score: '+n+' / 20','Percentage: '+n*5+'%','Mission coins: 200','Correct-answer stars: '+n,'Invaders defeated: 20','',...Q.flatMap((q,i)=>['Alien '+(i+1)+': '+q[0],'Selected: '+('ABCD'[s.answers[i]])+' — '+q[1][s.answers[i]],'Correct: '+('ABCD'[q[2]])+' — '+q[1][q[2]],'Result: '+(s.answers[i]===q[2]?'Correct':'Incorrect'),'Explanation: '+q[3],''])];let blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Dream_Invaders_'+s.name.replace(/[^a-z0-9]+/gi,'_')+'_Results.txt';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1800)};
-$('name').value=s.name;$('section').value=s.section;if(s.stage==='results'&&completed()===20)end();else if(s.stage==='game'){resetArcade();show('game');hud();raf=requestAnimationFrame(loop)}else show('welcome');
+$('name').value=s.name;$('section').value=s.section;/* Initial restore happens after bonus game initialization below. */
 
 /* End-of-game just-for-fun arcade boss. Grading remains isolated from this game. */
 const bc=$('bossCanvas'),bx=bc.getContext('2d'),BW=640,BH=400;
@@ -72,4 +72,5 @@ bc.addEventListener('pointerdown',e=>{if(!bossActive)return;const r=bc.getBoundi
 document.addEventListener('keydown',e=>{if(!bossActive||helpOpen||['INPUT','TEXTAREA'].includes(e.target.tagName))return;if(e.code==='ArrowLeft'){e.preventDefault();bossInput.left=true}else if(e.code==='ArrowRight'){e.preventDefault();bossInput.right=true}else if(e.code==='Space'){e.preventDefault();bossInput.fire=true}});
 document.addEventListener('keyup',e=>{if(e.code==='ArrowLeft')bossInput.left=false;if(e.code==='ArrowRight')bossInput.right=false;if(e.code==='Space')bossInput.fire=false});
 if(bossWinSaved&&s.stage==='results'&&completed()===20){$('bossStart').textContent='👑 PLAY BOSS AGAIN • PREVIOUSLY DEFEATED'}
+if(s.stage==='results'&&completed()===20)end();else if(s.stage==='game'){resetArcade();show('game');hud();raf=requestAnimationFrame(loop)}else show('welcome');
 </script></body></html>
