@@ -1,0 +1,34 @@
+GILL-MAN: ESCAPE THE SPOTLIGHT — GRADE 10
+Use AFTER the informative Creature/Milicent Patrick presentation.
+Suggested time: 15–20 minutes including discussion. Fast readers may finish earlier. The two arcade rounds last 45 active seconds each. This is a closing game, not a full 50-minute lesson.
+
+HOW IT WORKS
+Student enters name, section, date. Three sequential levels:
+1. Lagoon Run: move Gill-man, collect green reels, dodge orange spotlights for 45 seconds. Four comprehension missions.
+2. Missing Credits: match four people to their jobs. Unlimited attempts and Case File support. Four missions.
+3. Studio Spotlight boss: 45 seconds of swimming and avoiding spotlights while collecting credit stars. Four final missions.
+Review answers, FINISH + GRADE, download a plain-text record for Classroom.
+No extra video. Original playful Gill-man illustration and game animation. No jump scares, gore, advertisements, external scripts, accounts, or online leaderboard.
+
+CONTROLS
+Arrows or A/D. Touchscreen: drag on lagoon or hold left/right buttons. Pause button. Arcade and question timers pause when the tab is hidden or Case File is open.
+
+ACADEMIC SCORE
+12 correct answers = 12 points. No correctness during work. New questions require 8 active seconds and an answer. Students can review reached questions within the current level, then review ALL questions before grading. After final grading the record is locked. Personal discussion answers are not graded.
+Answer key: 1 A, 2 B, 3 C, 4 D, 5 A, 6 B, 7 C, 8 D, 9 A, 10 B, 11 C, 12 D.
+
+GAME REWARDS
+Each arcade collectible: +10 tokens. Spotlight collision: -5 tokens, minimum zero. Each finished arcade round: +50 completion tokens. Matching all pairs: +100. No minimum game score and no elimination. Game tokens never affect English score. This is practice, not a secure examination: client-side answer keys are inspectable.
+
+ENDING DISCUSSION
+Pairs: describe an aquatic feature and explain why Patrick deserves recognition. Optional silly prompt: give Gill-man an ordinary job and explain one problem (for example, a swimming instructor who frightens every customer).
+
+PROGRESS
+Autosave in this browser/device, where browser storage is available. Refresh during an arcade round restarts that round without losing completed academic answers. Students on shared devices should use separate browser profiles/sessions; this version does not include a reset button. Storage does not sync between computers. Names are kept locally, not uploaded to a server. Submit downloaded record as directed.
+
+HISTORICAL SOURCES
+Smithsonian costume record: https://americanhistory.si.edu/collections/object/nmah_2033655
+CalArts profile: https://blog.calarts.edu/2019/03/19/honoring-chouinard-alum-and-legendary-monster-designer-milicent-patrick/
+ACMI interview with Mallory O'Meara: https://www.acmi.net.au/stories-and-ideas/creature-from-the-black-lagoon-mallory-omeara-on-the-lost-legacy-of-milicent-patrick/
+State Archives of Florida: https://www.floridamemory.com/items/show/341909
+The arcade setting, spotlight boss, token system, and monster dialogue are fictional game elements.
