@@ -1,28 +1,51 @@
-TRADITION STUDIO — GRADE 6
-Companion to Masks, Pumpkins and Memories PowerPoint.
-Suggested time: about 20 minutes; 4 minutes guessing, 5 minutes per design, 4 minutes speaking, 2 minutes saving. Flexible creative activity, not a guaranteed minimum duration.
+TRADITION STUDIO — GRADE 8
+30-MINUTE CLASS PLAN
+Same public URL; the grade-6 folder name is retained so existing links work.
+All student-facing content is English. No video required.
 
-1. GUESS THE TRADITION
-Nine clues, one at a time, three choices: Costa Rican Mascarada, Halloween in California, Day of the Dead in Mexico. New clues require 8 active seconds and a selected response. Previous/reached clues can be reviewed. Hints and the Pocket Guide provide help. Correctness stays hidden until final completion.
-Answers in order: Costa Rica, California, Mexico, Costa Rica, California, Mexico, Costa Rica, California, Mexico. Each correct guess earns 1 point, total 9. Interpret clues in the context of the lesson; traditions can travel and communities are diverse.
+0–2 minutes: enter identity, introduce three traditions and respectful comparisons.
+2–7: Costa Rica field notes, six-word detail, five comprehension missions.
+7–8: Lantern Blaster — 60 active seconds, tap/click or arrow keys + Space.
+8–13: California field notes, six-word detail, five missions.
+13–16: Photo Vault — six pairs of real photographs; read captions after matching.
+16–21: Mexico field notes, six-word detail, five missions.
+21–22: Mix-Up Machine final boss — 60 active seconds, changing tradition target.
+22–28: Pumpkin Lab and Mask Workshop, approximately three minutes each.
+28–30: compare traditions with a partner, explain designs, finish and download.
+This is teacher-guided suggested pacing, not a guaranteed 30-minute lock. Reading speed, memory matching, and design time vary. Project a timer for workshops. Early finishers explain an additional similarity and difference or revise a design.
 
-2. PUMPKIN LAB
-Choose pumpkin color, eyes, nose, mouth, and glow. Surprise Me changes the design. Give it a name and choose TWO adjectives. Save picture as PNG. Name and two adjectives unlock the next workshop. No physical tools.
+PROGRESSION
+Each field-note page requires 60 active seconds plus a six-word note. Questions have an eight-second minimum on first reach, a selected response, and hints. Five missions unlock that level's game. Games must be completed before the next culture unlocks. Completed games may be replayed or continued. The full photo-memory board must be matched, with unlimited attempts. Arcade rounds have no minimum score, no elimination, and no human targets. Timers pause on hidden tabs and while the Pocket Guide is open. Refresh may restart an unfinished reading/game round; completed work is saved.
 
-3. MASCARADA MASK WORKSHOP
-Create an invented character inspired by Costa Rican giant masks. Choose colors, facial features, and spots/stripes/stars. Name it and choose two adjectives. Download the picture. A creative interpretation, not a claim to reproduce an authentic artisan design.
+LEARNING
+Mascarada: community performance, artisan skill, cimarrona music, La Giganta, national symbol in 2022.
+California Halloween: costumes, trick-or-treating, pumpkins, entertainment, suspense, variation in participation.
+Mexico Day of the Dead: November 1–2, remembrance, ofrendas, symbolic objects, regional and family variation.
+Compare purposes and distinguish facts from opinions. Similar-looking decorations can have different meanings. Traditions are not exclusive to national borders. No student needs to discuss a deceased relative.
 
-4. GALLERY AND SPEAKING
-Students describe both creations to a partner using the supplied sentence models. Choose a presentation preference/reason, then FINISH + REVEAL MY CLUE SCORE. They may edit designs or review guesses before finishing. Artistic ability and personal choices do not affect clue score. No forced sharing of memories about deceased relatives.
+ASSESSMENT
+15 comprehension questions, 1 point each. Correctness stays hidden until FINISH.
+Answer key: 1 B, 2 A, 3 C, 4 B, 5 A, 6 C, 7 B, 8 A, 9 C, 10 C, 11 A, 12 B, 13 C, 14 B, 15 C.
+Game points, memory attempts, artistic ability, and personal preferences do not change academic score.
+Designs each require a name and TWO adjectives. Download designs as PNG plus the text quest record with identity, notes, comprehension results, and game scores. Submit in Classroom if directed.
+Autosave is browser-local, same browser/device, no accounts or server collection. New Grade 8 save key keeps old Grade 6 work separate. Shared computers should use separate browser profiles.
 
-SUBMISSION
-Each student can download 2 PNG pictures plus a text Studio Record showing identity, 9-point clue score, design names/adjectives, preference, and completion. Submit files through Classroom when directed. PNG includes student name and section. Save on the student's own device/account.
-
-STORAGE
-Browser-local autosave, no server uploads or accounts. Same-device refresh resumes work. Does not sync between devices. Use separate browser profiles on shared computers. No reset button in student view. Finalized clues lock after finishing. Browser storage or downloads may be restricted by school policy; check on classroom devices.
-
-SOURCES
+FACT SOURCES
 Costa Rica MEP: https://www.mep.go.cr/noticias/dia-mascarada-tradicional-costarricense
 Visit California: https://www.visitcalifornia.com/now/halloween-happenings-california/
-Smithsonian: https://festival.si.edu/blog/santos-ofrendas-ten-highlights-latinx-art
-The app distinguishes Halloween pumpkin fun, Costa Rican mascarada community traditions, and Mexican Day of the Dead remembrance. It does not label Day of the Dead as Mexican Halloween.
+Smithsonian: https://www.si.edu/stories/5-facts-about-dia-de-los-muertos-day-dead
+
+REAL PHOTO CREDITS (also shown beside images)
+Masked parade — La Teja / Grupo Nación:
+https://www.lateja.cr/nacional/mascaradas-y-cimarronas-asustaron-y-alegraron-san/OHAUTQOUPJHNDBDU5VO73EGQFA/story/
+Giant masks — La Nación / Grupo Nación:
+https://www.nacion.com/el-pais/servicios/san-jose-celebro-la-mascarada-tica-con-musica-y/A3AUBVFJP5EG3CYOO4VXAH5VCM/story/
+Pumpkin patch — Rodoni Farms:
+https://www.rodonifarms.com/about-our-patch
+Costumes — Visit Anaheim:
+https://www.visitanaheim.org/blog/stories/post/only-in-anaheim-california/
+Ofrenda — Infobae:
+https://www.infobae.com/america/mexico/2022/11/02/entre-pan-cempasuchil-y-veladoras-asi-se-ven-las-ofrendas-monumentales-en-mexico/
+Decorative skulls — Dots on a Map:
+https://www.dotsonamap.net/best-markets-in-mexico-city/
+Images are credited third-party photographs, not original artwork or a claim of public-domain status. Downloaded assets are served from this repository so students do not depend on third-party image hosts during play.
