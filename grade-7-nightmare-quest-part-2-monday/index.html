@@ -214,8 +214,11 @@ render();
 <script>
 (function(){
 const checkpointKey="mondayWriterWorkshop_v1";
-let review=JSON.parse(localStorage.getItem(checkpointKey)||'{"done":{},"notes":{}}'),inCheckpoint=false,unlockOnce=false,checkpointStart=0,intervalId=0;
-function storeReview(){localStorage.setItem(checkpointKey,JSON.stringify(review))}
+let review={done:{},notes:{}},inCheckpoint=false,unlockOnce=false,checkpointStart=0,intervalId=0;
+function reviewStorageKey(){return checkpointKey+"_"+(state.student||"student").trim().toLowerCase()+"_"+(state.className||"class").trim().toLowerCase()}
+function loadReview(){try{review=JSON.parse(localStorage.getItem(reviewStorageKey())||'{"done":{},"notes":{}}')}catch(e){review={done:{},notes:{}}}}
+loadReview();
+function storeReview(){localStorage.setItem(reviewStorageKey(),JSON.stringify(review))}
 function storyText(){capture();return state.answers.slice(0,3).filter(Boolean).join(" ")+"\n\n"+state.answers.slice(3).filter(Boolean).join(" ")}
 function speakStory(){const text=storyText().trim();if(!text){alert("Write something first!");return}if(!("speechSynthesis" in window)){alert("Read your story aloud yourself. This browser does not support spoken playback.");return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=.85;speechSynthesis.speak(u)}
 function previewStory(){const existing=document.getElementById("workshopPreview");if(existing){existing.remove();return}const d=document.createElement("div");d.id="workshopPreview";d.className="workshop-preview";d.textContent=storyText().trim()||"Your story will appear here as you write.";const bar=document.getElementById("workshopButtons");bar?.after(d)}
@@ -240,7 +243,7 @@ document.getElementById("completeReview").onclick=()=>{
 next.addEventListener("click",function(e){
  if(inCheckpoint){e.stopImmediatePropagation();e.preventDefault();return}
  const kind=state.page===2?1:state.page===6?2:0;
- if(kind&&!review.done[kind]&&!unlockOnce){
+ if(kind&&!unlockOnce){loadReview();if(review.done[kind])return;
   capture();
   if(!meaningful(state.answers[state.page]))return;
   e.stopImmediatePropagation();e.preventDefault();checkpoint(kind)
