@@ -7,4 +7,29 @@ const worlds=[{name:"🧙‍♀️ Witch's Midnight Flight",hero:"🧙‍♀️"
 </script><style>@media print{body{background:white;color:black}main{display:none!important}#printSheet{display:block!important}#printSheet *{color:#111!important}#printSheet{font:11pt Arial,sans-serif;padding:8mm}#printSheet h1{font-size:18pt}#printSheet h2{font-size:12pt;margin:15px 0 5px}#printSheet .answer{border-bottom:1px solid #aaa;padding:4px 0;white-space:pre-wrap;overflow-wrap:anywhere}#printSheet .sheethead{border-bottom:2px solid #333;padding-bottom:8px}#printSheet p{margin:6px 0} @page{size:A4;margin:12mm}}#printSheet{display:none}</style><div id="printSheet"></div><script>
 function download(){const s=document.getElementById("printSheet");const safe=v=>esc(v||"");s.innerHTML='<div class="sheethead"><b>GRADE 7 | THE MYSTERY OF DREAMS PBL</b><h1>The Mystery of Dreams — Essay Planner</h1><p><b>Name:</b> '+safe(data.student)+' &nbsp; <b>Class:</b> '+safe(data.class)+' &nbsp; <b>Date:</b> '+safe(data.date)+'</p><p>Your goal: write a dream or nightmare story in 3 paragraphs and 100–120 words. Plan with short notes here. Build complete sentences later, then write your final essay.</p></div><h2>Step 1 Choose a dream or nightmare</h2><p>My dream is: <b>'+safe(data.type)+'</b></p><p>Ideas: a lucid dream, a nightmare, a fantasy world, a strange adventure, or a recurring dream.</p><p>My dream idea in a few words</p><div class="answer">'+safe(data.idea)+'</div><h2>Step 2 Plan your dream</h2><p>What type of dream is it? When does it begin?</p><div class="answer">'+safe(data.kind)+' — '+safe(data.when)+'</div><p>Where does your dream happen and who appears?</p><div class="answer">'+safe(data.where)+' — '+safe(data.who)+'</div><h2>Step 3 Put three dream events in order</h2><p>First, what happens in your dream?</p><div class="answer">'+safe(data.first)+'</div><p>Next, what surprising thing happens?</p><div class="answer">'+safe(data.next)+'</div><p>Finally, how does the dream end?</p><div class="answer">'+safe(data.finally)+'</div><h2>Step 4 Add dream details and feelings</h2><p>One strange thing I saw, heard, or experienced</p><div class="answer">'+safe(data.detail)+'</div><p>How I felt during the dream and after waking up</p><div class="answer">During: '+safe(data.during)+'; After: '+safe(data.after)+'</div><h2>Step 5 Explain your dream</h2><p>Why is this dream interesting, frightening, or mysterious?</p><div class="answer">'+safe(data.why)+'</div><p style="margin-top:14px;font-size:9pt">You may invent your dream or nightmare. Share only details you feel comfortable sharing.</p>';window.print()}
 const originalRender=render;render=function(){originalRender();if(page===6){const b=area.querySelector('button[onclick="download()"]');if(b)b.textContent="📄 PRINT / SAVE MY COMPLETED PLANNER (PDF)"}};render();
+</script><script>
+function download(){const safe=v=>esc(v||"");const lines=[
+'<h1>The Mystery of Dreams — Essay Planner</h1>',
+'<p><b>GRADE 7 | THE MYSTERY OF DREAMS PBL</b></p>',
+'<p><b>Name:</b> '+safe(data.student)+' &nbsp; <b>Class:</b> '+safe(data.class)+' &nbsp; <b>Date:</b> '+safe(data.date)+'</p>',
+'<p><i>Your goal: write a dream or nightmare story in 3 paragraphs and 100–120 words. Plan with short notes here. Build complete sentences later, then write your final essay.</i></p>',
+'<h2>Step 1 Choose a dream or nightmare</h2>',
+'<p>My dream is: <b>'+safe(data.type)+'</b></p>',
+'<p>Ideas: a lucid dream, a nightmare, a fantasy world, a strange adventure, or a recurring dream.</p>',
+'<p><b>My dream idea in a few words</b></p><p class="answer">'+safe(data.idea)+'</p>',
+'<h2>Step 2 Plan your dream</h2>',
+'<p><b>What type of dream is it? When does it begin?</b></p><p class="answer">'+safe(data.kind)+' — '+safe(data.when)+'</p>',
+'<p><b>Where does your dream happen and who appears?</b></p><p class="answer">'+safe(data.where)+' — '+safe(data.who)+'</p>',
+'<h2>Step 3 Put three dream events in order</h2>',
+'<p><b>First, what happens in your dream?</b></p><p class="answer">'+safe(data.first)+'</p>',
+'<p><b>Next, what surprising thing happens?</b></p><p class="answer">'+safe(data.next)+'</p>',
+'<p><b>Finally, how does the dream end?</b></p><p class="answer">'+safe(data.finally)+'</p>',
+'<h2>Step 4 Add dream details and feelings</h2>',
+'<p><b>One strange thing I saw, heard, or experienced</b></p><p class="answer">'+safe(data.detail)+'</p>',
+'<p><b>How I felt during the dream and after waking up</b></p><p class="answer">During: '+safe(data.during)+'; After waking up: '+safe(data.after)+'</p>',
+'<h2>Step 5 Explain your dream</h2>',
+'<p><b>Why is this dream interesting, frightening, or mysterious?</b></p><p class="answer">'+safe(data.why)+'</p>',
+'<p><i>You may invent your dream or nightmare. Share only details you feel comfortable sharing.</i></p>'
+];const doc='<!DOCTYPE html><html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>Dreams Essay Planner</title><style>body{font-family:Arial,sans-serif;color:#111;font-size:11pt;margin:35px}h1{font-size:18pt;border-bottom:2px solid #333;padding-bottom:9px}h2{font-size:12pt;margin-top:17px;margin-bottom:6px;color:#222}.answer{border-bottom:1px solid #999;padding:5px 2px;white-space:pre-wrap}p{margin:7px 0}</style></head><body>'+lines.join('')+'</body></html>';const blob=new Blob(['\ufeff',doc],{type:'application/msword;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Mystery-of-Dreams-Part-1-'+(data.student||'Student').replace(/[^a-z0-9_-]/gi,'_')+'.doc';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+const previousRender=render;render=function(){previousRender();if(page===6){const b=area.querySelector('button[onclick="download()"]');if(b)b.textContent="⬇️ DOWNLOAD MY COMPLETED PLANNER (.DOC)"}};render();
 </script></html>
