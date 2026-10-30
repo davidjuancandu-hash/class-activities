@@ -86,4 +86,122 @@ function tickXmas(){if(!xmasGame||xmasGame.done||state.page!==8)return;const g=x
 document.addEventListener("keydown",e=>{if(state.page===8&&xmasGame&&["ArrowUp","ArrowDown"," "].includes(e.key)){e.preventDefault();if(e.key===" ")shootSnowball();else held=e.key==="ArrowUp"?-1:1}});document.addEventListener("keyup",e=>{if(["ArrowUp","ArrowDown"].includes(e.key))held=0});
 const originalStop=stopGame;stopGame=function(){originalStop();stopXmas()};
 render();
+</script>
+<style>
+.retro-panel{background:#10132e;border:3px solid #bb91ff;border-radius:12px;padding:12px;margin:14px 0}
+.retro-panel canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none;background:#0d1531}
+.retro-controls{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:12px 0}
+.retro-controls button{min-width:74px;min-height:55px;background:#f1b84d;color:#20142b;touch-action:none}
+.retro-message{font-weight:800;color:#ffdb87}
+</style>
+<script>
+(function(){
+let active=null,frame=0,heldKeys=new Set(),lastTime=0;
+const modes=[
+{title:"🦌 Reindeer Road Crossing",help:"FROGGER-STYLE: Guide your reindeer from the snowy bottom to the Christmas village at the top. Avoid cars and icy river hazards. Use arrow keys or touch arrows."},
+{title:"🧝 Elves vs. Krampus Invaders",help:"SPACE INVADERS-STYLE: Move your elf left and right and fire snowballs at the descending Krampus army. Destroy 18 invaders before they reach the ground!"},
+{title:"🎅 Santa's Present Dash",help:"ARCADE RUNNER: Jump over snowmen and coal, collect Christmas presents, and reach 12 presents to win. Tap JUMP or press SPACE."}
+];
+function stop(){if(frame)cancelAnimationFrame(frame);frame=0;heldKeys.clear();active=null}
+const oldRender=render;
+render=function(){
+ oldRender();
+ if(state.page===7){
+ const buttons=[...area.querySelectorAll(".gamebuttons button")];
+ const labels=["🦌 PLAY REINDEER ROAD CROSSING","🧝 PLAY KRAMPUS INVADERS","🎅 PLAY SANTA'S PRESENT DASH"];
+ buttons.forEach((b,i)=>{b.textContent=labels[i];b.removeAttribute("onclick");b.onclick=()=>launch(i)});
+ const heading=[...area.querySelectorAll("h2")].find(h=>h.textContent.includes("Arcade"));
+ if(heading)heading.textContent="🎮 Christmas Retro Arcade — Three New Games!";
+ const note=area.querySelector(".gamebuttons")?.previousElementSibling;
+ if(note)note.textContent="Choose a classic arcade adventure! Finish your writing first to unlock the games.";
+ }
+};
+function launch(mode){
+ stopGame();stop();
+ state.page=8;save();nav.style.display="none";counter.textContent="RETRO CHRISTMAS ARCADE";
+ area.innerHTML='<h2>'+modes[mode].title+'</h2><p>'+modes[mode].help+'</p><div class="retro-panel"><p id="retroHud" class="arcadehud">READY!</p><canvas id="retroCanvas" width="640" height="380"></canvas><p id="retroMessage" class="retro-message">LET’S PLAY!</p></div><div id="retroControls" class="retro-controls"></div><button id="retroRestart">↻ RESTART GAME</button><button id="retroBack">← BACK TO WRITING & DOWNLOAD</button>';
+ const controls=document.getElementById("retroControls");
+ const keys=mode===0?[["⬅️","ArrowLeft"],["⬆️","ArrowUp"],["⬇️","ArrowDown"],["➡️","ArrowRight"]]:mode===1?[["⬅️","ArrowLeft"],["❄️ FIRE","Space"],["➡️","ArrowRight"]]:[["⬆️ JUMP","Space"]];
+ keys.forEach(([label,key])=>{
+  const b=document.createElement("button");b.textContent=label;
+  b.addEventListener("pointerdown",e=>{e.preventDefault();b.setPointerCapture(e.pointerId);heldKeys.add(key);if(mode===0)stepReindeer(key);if(mode===1&&key==="Space")shoot();if(mode===2&&key==="Space")jump()});
+  const release=()=>heldKeys.delete(key);b.addEventListener("pointerup",release);b.addEventListener("pointercancel",release);b.addEventListener("lostpointercapture",release);controls.appendChild(b);
+ });
+ document.getElementById("retroRestart").onclick=()=>launch(mode);
+ document.getElementById("retroBack").onclick=()=>{stop();state.page=7;save();render()};
+ active={mode,t:0,score:0,lives:3,done:false,win:false,player:{x:mode===0?320:mode===1?320:115,y:mode===0?342:mode===1?340:305,vy:0},bullets:[],enemies:[],lastStep:0};
+ if(mode===1){for(let row=0;row<3;row++)for(let col=0;col<7;col++)active.enemies.push({x:70+col*77,y:45+row*49,alive:true})}
+ lastTime=0;frame=requestAnimationFrame(loop);
+}
+function stepReindeer(key){
+ const g=active;if(!g||g.mode!==0||g.done)return;
+ const delta={ArrowUp:[0,-38],ArrowDown:[0,38],ArrowLeft:[40*-1,0],ArrowRight:[40,0]}[key];
+ if(!delta)return;g.player.x=Math.max(24,Math.min(616,g.player.x+delta[0]));g.player.y=Math.max(18,Math.min(342,g.player.y+delta[1]));
+ if(g.player.y<=38){g.score++;g.player.x=320;g.player.y=342;if(g.score>=3)finish(true)}
+}
+function shoot(){const g=active;if(g&&g.mode===1&&!g.done&&g.bullets.length<3)g.bullets.push({x:g.player.x,y:318})}
+function jump(){const g=active;if(g&&g.mode===2&&!g.done&&g.player.y>=305)g.player.vy=-13}
+function finish(win){if(!active)return;active.done=true;active.win=win;document.getElementById("retroMessage").textContent=win?"🏆 YOU SAVED CHRISTMAS! PLAY AGAIN?":"💫 GAME OVER! TRY AGAIN!"}
+function drawSnow(ctx,t){ctx.fillStyle="#0c1833";ctx.fillRect(0,0,640,380);ctx.font="16px serif";for(let i=0;i<38;i++)ctx.fillText("✦",(i*137+t*(i%2?-0.3:0.2)+2000)%640,(i*67)%370)}
+function loop(time){
+ const g=active;if(!g)return;const ctx=document.getElementById("retroCanvas")?.getContext("2d");if(!ctx)return;
+ const dt=lastTime?Math.min(2,(time-lastTime)/16.67):1;lastTime=time;
+ if(!g.done){g.t+=dt;update(g,dt)}
+ drawSnow(ctx,g.t);
+ if(g.mode===0)drawFrogger(ctx,g);else if(g.mode===1)drawInvaders(ctx,g);else drawRunner(ctx,g);
+ document.getElementById("retroHud").textContent=g.mode===0?"Village crossings: "+g.score+"/3 · Lives: "+g.lives:g.mode===1?"Krampus defeated: "+g.score+"/18 · Lives: "+g.lives:"Presents: "+g.score+"/12 · Lives: "+g.lives;
+ if(!g.done)frame=requestAnimationFrame(loop);else frame=0;
+}
+function update(g,dt){
+ if(g.mode===0){
+ const p=g.player,lanes=[{y:76,speed:1.5,emoji:"🛷"},{y:114,speed:-2,emoji:"🚙"},{y:152,speed:2.5,emoji:"🚗"},{y:228,speed:-2.2,emoji:"🧊"},{y:266,speed:1.7,emoji:"🧊"}];
+ for(const lane of lanes)for(let i=0;i<3;i++){const x=((i*240+g.t*lane.speed)%760+760)%760-60;if(Math.abs(p.y-lane.y)<23&&Math.abs(p.x-x)<39){g.lives--;p.x=320;p.y=342;if(g.lives<=0)finish(false);return}}
+ }else if(g.mode===1){
+ const p=g.player;if(heldKeys.has("ArrowLeft"))p.x=Math.max(28,p.x-5*dt);if(heldKeys.has("ArrowRight"))p.x=Math.min(612,p.x+5*dt);
+ if(heldKeys.has("Space")&&Math.floor(g.t)%13===0&&g.bullets.length<3)shoot();
+ g.bullets.forEach(b=>b.y-=8*dt);g.bullets=g.bullets.filter(b=>b.y>-10);
+ for(const e of g.enemies)if(e.alive){
+ e.x+=Math.sin(g.t/35)*0.9*dt;e.y+=0.047*dt;
+ if(e.y>305){finish(false);return}
+ for(const b of g.bullets)if(Math.abs(b.x-e.x)<24&&Math.abs(b.y-e.y)<22){e.alive=false;b.y=-100;g.score++;if(g.score>=18)finish(true);break}
+ }
+ if(Math.floor(g.t)%110===0&&g.enemies.some(e=>e.alive)){const pool=g.enemies.filter(e=>e.alive);const e=pool[Math.floor(Math.random()*pool.length)];g.bullets.push({x:e.x,y:e.y,enemy:true})}
+ for(const b of g.bullets.filter(b=>b.enemy)){b.y+=12*dt;if(Math.abs(b.x-p.x)<24&&Math.abs(b.y-p.y)<20){g.lives--;b.y=500;if(g.lives<=0)finish(false)}}
+ g.bullets=g.bullets.filter(b=>b.y<390&&b.y>-15);
+ }else{
+ const p=g.player;p.vy+=0.65*dt;p.y=Math.min(305,p.y+p.vy*dt);if(p.y>=305)p.vy=0;
+ if(g.t-g.lastStep>55){g.lastStep=g.t;g.enemies.push({x:680,y:Math.random()<.65?313:255,good:Math.random()<.57,hit:false})}
+ for(const o of g.enemies){o.x-=5.3*dt;if(!o.hit&&Math.abs(o.x-p.x)<33&&Math.abs(o.y-p.y)<38){o.hit=true;if(o.good){g.score++;if(g.score>=12)finish(true)}else{g.lives--;if(g.lives<=0)finish(false)}}}g.enemies=g.enemies.filter(o=>o.x>-40)
+ }
+}
+function drawFrogger(ctx,g){
+ ctx.fillStyle="#d5e6f6";ctx.fillRect(0,0,640,38);ctx.fillRect(0,306,640,74);
+ ctx.fillStyle="#39404f";ctx.fillRect(0,57,640,116);ctx.fillRect(0,209,640,78);
+ ctx.fillStyle="#a2d9ff";ctx.fillRect(0,183,640,21);
+ ctx.strokeStyle="#f6e7a8";ctx.setLineDash([25,18]);for(const y of [95,133,247]){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(640,y);ctx.stroke()}ctx.setLineDash([]);
+ ctx.font="27px serif";ctx.fillText("🏠 🎄 🏠 🎄 🏠 🎄",35,30);
+ const lanes=[{y:76,speed:1.5,emoji:"🛷"},{y:114,speed:-2,emoji:"🚙"},{y:152,speed:2.5,emoji:"🚗"},{y:228,speed:-2.2,emoji:"🧊"},{y:266,speed:1.7,emoji:"🧊"}];
+ ctx.font="36px serif";for(const lane of lanes)for(let i=0;i<3;i++)ctx.fillText(lane.emoji,((i*240+g.t*lane.speed)%760+760)%760-60,lane.y+12);
+ ctx.font="42px serif";ctx.fillText("🦌",g.player.x-20,g.player.y+15)
+}
+function drawInvaders(ctx,g){
+ ctx.fillStyle="#dbe8ff";ctx.fillRect(0,358,640,22);ctx.font="30px serif";
+ for(const e of g.enemies)if(e.alive)ctx.fillText("👹",e.x-16,e.y+10);
+ ctx.font="29px serif";ctx.fillText("🧝",g.player.x-16,353);
+ ctx.font="25px serif";for(const b of g.bullets)ctx.fillText(b.enemy?"🔥":"❄️",b.x-11,b.y+10)
+}
+function drawRunner(ctx,g){
+ ctx.fillStyle="#dbeeff";ctx.fillRect(0,335,640,45);ctx.fillStyle="#83a7be";ctx.fillRect(0,332,640,5);
+ ctx.font="28px serif";for(let i=0;i<7;i++)ctx.fillText("🎄",i*115-(g.t*2%115),331);
+ ctx.font="48px serif";ctx.fillText("🎅",g.player.x-24,g.player.y+20);
+ ctx.font="38px serif";for(const o of g.enemies)ctx.fillText(o.good?"🎁":"☃️",o.x-19,o.y+18)
+}
+document.addEventListener("keydown",e=>{
+ if(!active||active.done)return;
+ if(["ArrowLeft","ArrowRight","ArrowUp","ArrowDown","Space"," "].includes(e.code)){e.preventDefault();heldKeys.add(e.code);if(active.mode===0&&!e.repeat)stepReindeer(e.code);if(active.mode===1&&e.code==="Space"&&!e.repeat)shoot();if(active.mode===2&&e.code==="Space"&&!e.repeat)jump()}
+});
+document.addEventListener("keyup",e=>heldKeys.delete(e.code));
+window.addEventListener("blur",()=>heldKeys.clear());
+render();
+})();
 </script></body></html>
