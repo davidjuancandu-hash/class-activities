@@ -279,7 +279,7 @@ next.addEventListener("click",function(e){
  if(kind&&!unlockOnce){loadReview();if(review.done[kind])return;
   capture();
   if(!meaningful(state.answers[state.page]))return;
-  e.stopImmediatePropagation();e.preventDefault();checkpoint(kind)
+  return; // Workshop review is optional; proceed with normal Next navigation
  }
 },true);
 const originalDoc=docHTML;
