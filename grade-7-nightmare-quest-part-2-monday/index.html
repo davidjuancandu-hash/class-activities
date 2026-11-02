@@ -282,6 +282,27 @@ next.addEventListener("click",function(e){
   return; // Workshop review is optional; proceed with normal Next navigation
  }
 },true);
+const baseDocWithAnswers=docHTML;
+docHTML=function(){
+ const safe=escapeHTML;
+ const questions=[0,1,2,3,4,5,6].map(i=>{
+   const p=prompts[i];
+   return '<div style="margin:14px 0 20px;page-break-inside:avoid"><p><b>Mission '+(i+1)+': '+safe(p.title)+'</b></p>'+
+     '<p><b>Question:</b> '+safe(p.question)+'</p>'+
+     '<p><b>Sentence starter:</b> '+safe(p.starter)+'</p>'+
+     '<p><b>Student answer:</b> '+safe(state.answers[i]||'(not answered)')+'</p></div>';
+ });
+ const p1=state.answers.slice(0,3).join(' '),p2=state.answers.slice(3).join(' ');
+ const full='<h2>Step 6 — Paragraph 1: Beginning</h2>'+questions.slice(0,3).join('')+
+   '<h2>Step 7 — Paragraph 2: Middle</h2>'+questions.slice(3).join('')+
+   '<h2>Complete Writing for Teacher Review</h2><p><b>Paragraph 1 ('+count(p1)+' words):</b> '+safe(p1)+'</p>'+
+   '<p><b>Paragraph 2 ('+count(p2)+' words):</b> '+safe(p2)+'</p>'+
+   '<p><b>Monday total:</b> '+count(state.answers.join(' '))+' words.</p>';
+ let doc=baseDocWithAnswers();
+ const begin=doc.indexOf('<h2>Step 6 — Paragraph 1: Beginning</h2>');
+ const end=doc.indexOf('</body></html>',begin);
+ return begin>=0&&end>begin?doc.slice(0,begin)+full+doc.slice(end):doc;
+};
 const originalDoc=docHTML;
 docHTML=function(){let doc=originalDoc();const extra=[1,2].filter(k=>review.notes[k]).map(k=>{const n=review.notes[k];return '<h2>Paragraph '+k+' — Writer’s Workshop Revision</h2><p><b>Original:</b> '+escapeHTML(n.before)+'</p><p><b>Improved:</b> '+escapeHTML(n.after)+'</p><p><b>Why I changed it:</b> '+escapeHTML(n.explanation)+'</p>'}).join("");return doc.replace("</body></html>",extra+"</body></html>")};
 render();
