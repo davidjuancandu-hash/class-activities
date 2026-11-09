@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passion Project | Audience Judge Challenge</title>
+<style>
+:root{--navy:#101d3d;--purple:#6355d9;--pink:#f25e96;--mint:#14a88b;--paper:#fff;--ink:#192446;--muted:#5e6884;--line:#dce2f2}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,"Segoe UI",Arial,sans-serif;background:linear-gradient(135deg,#f1f0ff,#e8fbfa);color:var(--ink);line-height:1.45}
+header{background:linear-gradient(120deg,#24225e,#6554d8 65%,#e55e9a);color:white;padding:27px 18px 32px;text-align:center}header h1{margin:5px 0;font-size:clamp(25px,4vw,40px)}header p{margin:5px auto;max-width:670px}main{max-width:840px;margin:-15px auto 50px;padding:0 14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:22px;margin:15px 0;box-shadow:0 6px 20px #21215112}
+h2{margin:0 0 12px;font-size:23px}h3{margin:10px 0}.small{color:var(--muted);font-size:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap}.field{flex:1 1 210px}label{display:block;font-weight:700;margin:9px 0 5px}
+input[type=text],textarea,select{width:100%;border:2px solid #d9dff0;border-radius:10px;padding:11px;font:inherit;background:#fff;color:var(--ink)}textarea{min-height:76px;resize:vertical}input:focus,textarea:focus,select:focus{outline:3px solid #c4baff;border-color:var(--purple)}
+button{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:11px;padding:12px 18px;background:var(--purple);color:#fff}button:hover{filter:brightness(1.08)}button.secondary{background:#e8e9fc;color:#29215e}button.green{background:#138d75}button:disabled{opacity:.45;cursor:not-allowed}
+.steps{display:flex;justify-content:space-between;gap:8px;align-items:center;margin:12px 0}.pill{background:#e8e6fc;padding:7px 11px;border-radius:99px;color:#322b77;font-weight:800;font-size:13px}
+.progress{height:11px;background:#e2e6f5;border-radius:99px;overflow:hidden}.progress div{height:100%;background:linear-gradient(90deg,#30bda7,#7a6cf0);transition:width .2s}
+.ratings{display:grid;gap:14px;margin:15px 0}.rating{border:1px solid var(--line);padding:12px;border-radius:12px}.rating legend{font-weight:750}.rating .choices{display:flex;gap:8px;flex-wrap:wrap}.rating label{margin:0;cursor:pointer;font-weight:650}.rating input{position:absolute;opacity:0}.rating span{display:inline-block;border:2px solid #d9def1;padding:8px 12px;border-radius:10px;background:#f8f9ff}.rating input:checked+span{background:#e4dcff;border-color:var(--purple);color:#382c91}.rating input:focus-visible+span{outline:3px solid #8880ff}
+.tip{background:#fff6dc;border-left:5px solid #f3bb47;padding:12px;border-radius:8px;margin:15px 0}.check{color:#087965;font-weight:700}.hidden{display:none!important}
+footer{text-align:center;color:#66718d;padding:20px}.error{color:#ae2455;font-weight:750}.success{color:#087965;font-weight:800}
+@media print{header,nav,.no-print,.tip,footer{display:none!important}body{background:#fff}main{margin:0;max-width:none}.card{box-shadow:none;break-inside:avoid;border:1px solid #bbb}.hidden{display:block!important}}
+</style></head><body>
+<header><div>🎤 ⭐ 🏆</div><h1>The Ultimate Passion Project</h1><p><strong>AUDIENCE JUDGE CHALLENGE!</strong></p><p>Listen, learn, cheer, and give friendly feedback to all 7 groups.</p></header>
+<main>
+<section class="card" id="intro">
+<h2>👋 Welcome, Audience Judge!</h2>
+<p>While your classmates present, your mission is to <strong>listen carefully</strong> and notice something awesome about every group.</p>
+<div class="row"><div class="field"><label for="student">Your full name *</label><input id="student" type="text" autocomplete="name" placeholder="First and last name"></div><div class="field"><label for="section">Grade / Section *</label><input id="section" type="text" placeholder="Example: 7A"></div></div>
+<div class="tip">🌟 <strong>Kindness rule:</strong> This is a fun listening challenge, not a way to criticize classmates. Choose stars fairly, and write something you genuinely learned.</div>
+<p class="small">Scores: ⭐ 1 = Good effort &nbsp; ⭐⭐ 2 = Great job &nbsp; ⭐⭐⭐ 3 = Amazing!</p>
+<button id="begin">Start Judging 🎬</button><p id="introError" class="error" role="alert"></p>
+</section>
+<section class="card hidden" id="judge">
+<nav class="steps no-print"><button class="secondary" id="prev">← Previous</button><span class="pill" id="counter">Group 1 of 7</span><button id="next">Next Group →</button></nav>
+<div class="progress" aria-label="Presentation progress"><div id="bar"></div></div>
+<h2 id="groupTitle" style="margin-top:16px">🎙️ Group 1</h2>
+<div class="row"><div class="field"><label for="groupName">Group name or presentation topic</label><input id="groupName" type="text" placeholder="Example: Amazing Animals"></div></div>
+<div class="ratings" id="ratings"></div>
+<label for="learned">🧠 One interesting thing I learned from this group *</label><textarea id="learned" placeholder="I learned that... (write at least 4 words)"></textarea>
+<label for="kind">💬 One kind compliment (optional)</label><input id="kind" type="text" placeholder="I liked how your group...">
+<p class="small">You can return to earlier groups. Your work is saved automatically in this browser.</p><p id="judgeError" class="error" role="alert"></p>
+</section>
+<section class="card hidden" id="final">
+<h2>🏆 Final Audience Awards</h2><p>You've listened to all seven groups! Choose a favorite <em>other than your own group</em>.</p>
+<label for="favorite">🌟 My audience favorite *</label><select id="favorite"><option value="">Choose a group...</option></select>
+<label for="reason">💡 Why was this presentation memorable? *</label><textarea id="reason" placeholder="I liked this presentation because..."></textarea>
+<label for="question">❓ One question I would like to ask a group *</label><textarea id="question" placeholder="My question is..."></textarea>
+<div class="tip">🎉 There are no winners or losers here. Every group can earn recognition for effort, creativity, and communication!</div>
+<p id="finalError" class="error" role="alert"></p><div class="row no-print"><button class="secondary" id="back">← Back to groups</button><button class="green" id="finish">Finish & View My Report ✓</button></div>
+</section>
+<section class="card hidden" id="report">
+<h2>🎉 Mission Complete!</h2><p class="success" id="congrats"></p><p>You listened, learned, and supported your classmates. Great work!</p>
+<div id="reportBody"></div>
+<div class="row no-print"><button class="green" id="download">💾 Save & Download Report</button><button class="secondary" id="edit">✏️ Edit My Answers</button><button class="secondary" onclick="window.print()">🖨️ Print (optional)</button></div>
+<p class="small">Download your report and submit the file to your teacher. Your work stays on this device only; it is not sent to a server.</p>
+</section>
+</main><footer>Made for English Conversation Class • Be kind • Pay attention • Have fun! 🎤</footer>
+<script>
+(function(){
+"use strict";
+const key="passion-judge-v1", blank=()=>({name:"",ratings:{english:0,team:0,fun:0},learned:"",kind:""});
+let state={student:"",section:"",groups:Array.from({length:7},blank),favorite:"",reason:"",question:"",step:0,screen:"intro"};
+try{const old=JSON.parse(localStorage.getItem(key));if(old&&Array.isArray(old.groups)&&old.groups.length===7)state={...state,...old};}catch(e){}
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem(key,JSON.stringify(state))}catch(e){}}
+function screen(s){state.screen=s;["intro","judge","final","report"].forEach(x=>$(x).classList.toggle("hidden",x!==s));save();window.scrollTo(0,0)}
+function syncProfile(){state.student=$("student").value.trim();state.section=$("section").value.trim();save()}
+$("student").value=state.student;$("section").value=state.section;
+["student","section"].forEach(id=>$(id).addEventListener("input",syncProfile));
+$("begin").onclick=()=>{syncProfile();if(!state.student||!state.section){$("introError").textContent="Please enter your full name and class section.";return}$("introError").textContent="";draw();screen("judge")};
+const criteria=[["english","🗣️ Clear English","Could I understand the speakers?"],["team","🤝 Teamwork","Did the group share and help each other?"],["fun","🎨 Fun & Creativity","Did they make it interesting?"]];
+function draw(){let i=state.step,g=state.groups[i];$("counter").textContent=`Group ${i+1} of 7`;$("groupTitle").textContent=`🎙️ Group ${i+1}`;$("bar").style.width=`${(i+1)/7*100}%`;$("prev").disabled=i===0;$("next").textContent=i===6?"Finish Judging →":"Next Group →";$("groupName").value=g.name;$("learned").value=g.learned;$("kind").value=g.kind;$("judgeError").textContent="";
+$("ratings").innerHTML=criteria.map(([id,label,hint])=>`<fieldset class="rating"><legend>${label}</legend><div class="small">${hint}</div><div class="choices">${[1,2,3].map(n=>`<label><input type="radio" name="${id}" value="${n}" ${g.ratings[id]===n?"checked":""}><span>${"⭐".repeat(n)} ${n}</span></label>`).join("")}</div></fieldset>`).join("");
+$("ratings").querySelectorAll("input").forEach(inp=>inp.addEventListener("change",()=>{g.ratings[inp.name]=Number(inp.value);save()}));
+}
+function saveGroup(){let g=state.groups[state.step];g.name=$("groupName").value.trim();g.learned=$("learned").value.trim();g.kind=$("kind").value.trim();save()}
+["groupName","learned","kind"].forEach(id=>$(id).addEventListener("input",saveGroup));
+function validGroup(){let g=state.groups[state.step];if(!criteria.every(([id])=>g.ratings[id]>=1)){ $("judgeError").textContent="Please choose stars for all three friendly criteria.";return false}if(g.learned.split(/\s+/).filter(Boolean).length<4){$("judgeError").textContent="Write at least 4 words about something you learned.";return false}return true}
+$("prev").onclick=()=>{saveGroup();if(state.step>0){state.step--;draw();save()}};
+$("next").onclick=()=>{saveGroup();if(!validGroup())return;if(state.step<6){state.step++;draw();save()}else{drawFinal();screen("final")}};
+function drawFinal(){const sel=$("favorite");sel.innerHTML='<option value="">Choose a group...</option>';state.groups.forEach((g,i)=>{const opt=document.createElement("option");opt.value=String(i+1);opt.textContent=`Group ${i+1}${g.name?" — "+g.name:""}`;sel.appendChild(opt)});sel.value=state.favorite;$("reason").value=state.reason;$("question").value=state.question}
+["favorite","reason","question"].forEach(id=>$(id).addEventListener("input",()=>{state[id]=$(id).value;save()}));
+$("back").onclick=()=>{state.step=6;draw();screen("judge")};
+$("finish").onclick=()=>{state.favorite=$("favorite").value;state.reason=$("reason").value.trim();state.question=$("question").value.trim();if(!state.favorite||state.reason.split(/\s+/).filter(Boolean).length<4||state.question.split(/\s+/).filter(Boolean).length<4){$("finalError").textContent="Choose a favorite and write at least 4 words for each response.";return}$("finalError").textContent="";drawReport();screen("report")};
+function escapeHTML(x){return String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function drawReport(){ $("congrats").textContent=`Well done, ${state.student}!`;let html=`<p><strong>Student:</strong> ${escapeHTML(state.student)} &nbsp; <strong>Class:</strong> ${escapeHTML(state.section)}</p>`;state.groups.forEach((g,i)=>{html+=`<div style="border-top:1px solid #ddd;padding:10px 0"><strong>Group ${i+1}${g.name?" — "+escapeHTML(g.name):""}</strong><div>Clear English: ${g.ratings.english}/3 · Teamwork: ${g.ratings.team}/3 · Creativity: ${g.ratings.fun}/3</div><div><strong>I learned:</strong> ${escapeHTML(g.learned)}</div>${g.kind?`<div><strong>Kind words:</strong> ${escapeHTML(g.kind)}</div>`:""}</div>`});html+=`<p><strong>Audience favorite:</strong> Group ${escapeHTML(state.favorite)}</p><p><strong>Why:</strong> ${escapeHTML(state.reason)}</p><p><strong>My question:</strong> ${escapeHTML(state.question)}</p>`;$("reportBody").innerHTML=html}
+$("edit").onclick=()=>{state.step=0;draw();screen("judge")};
+$("download").onclick=()=>{const lines=["THE ULTIMATE PASSION PROJECT — AUDIENCE JUDGE REPORT",`Student: ${state.student}`,`Grade / Section: ${state.section}`,`Date: ${new Date().toLocaleDateString()}`,"",...state.groups.flatMap((g,i)=>[`GROUP ${i+1}${g.name?" — "+g.name:""}`,`Clear English: ${g.ratings.english}/3 | Teamwork: ${g.ratings.team}/3 | Fun & Creativity: ${g.ratings.fun}/3`,`One thing I learned: ${g.learned}`,`Kind compliment: ${g.kind||"(not entered)"}`,""]),`Audience favorite: Group ${state.favorite}`,`Why: ${state.reason}`,`Question for a group: ${state.question}`];const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`Passion_Project_Audience_Judge_${state.student.replace(/[^a-z0-9]+/gi,"_")||"Student"}.txt`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)};
+if(state.screen==="judge"){draw();screen("judge")}else if(state.screen==="final"){drawFinal();screen("final")}else if(state.screen==="report"&&state.favorite){drawReport();screen("report")}
+})();
+</script></body></html>
