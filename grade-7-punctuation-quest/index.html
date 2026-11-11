@@ -34,11 +34,11 @@ const levels=[
 ["Where does the comma belong?",["Wow this, trip was fun!","Wow this trip, was fun!","Wow, this trip was fun!","Wow this trip was, fun!"],2],
 ["Which sentence uses commas correctly?",["We packed, shoes shirts, and hats.","We packed shoes, shirts, and hats.","We packed shoes shirts, and, hats.","We, packed shoes shirts and hats."],1],
 ["What is one job of a comma?",["To start a sentence","To replace all periods","To separate items in a list","To end a direct question"],2]]},
-{title:"Level 6 • Bonus Punctuation",name:"Apostrophes, quotes, colons & semicolons",guide:"An apostrophe (') can show possession or missing letters. Quotation marks (\" \") surround direct speech. A colon (:) may introduce a list. A semicolon (;) can link closely related complete sentences.",example:"The guide's map. • She said, \"Hello!\" • Bring three things: water, shoes, and a hat. • We explored; we learned.",qs:[
-["Which sentence shows possession correctly?",["The guides map is new.","The guide's map is new.","The guides' map's is new.","The guide map's is new."],1],
-["Which punctuation encloses a person's exact spoken words?",["Quotation marks","Semicolon","Question mark","Colon"],0],
-["Which sentence uses a colon correctly?",["We need: three things water, food, and shoes.","We need three things: water, food, and shoes.","We: need three things water and food.","We need three: things water, food, and shoes."],1],
-["Which sentence uses a semicolon correctly?",["We visited the farm; we learned a lot.","We; visited the farm and learned.","We visited; the farm.","The; farm was interesting."],0]]}
+{title:"Level 6 • Dictation Ready!",name:"Mixed punctuation and capitalization",guide:"Review the basics: start sentences and names with capital letters; use a period for statements, a question mark for questions, an exclamation mark for strong feelings, and commas in lists or after words like Wow.",example:"We visited Vietnam. • Where is the guide? • Wow, the market is busy! • We bought fish, fruit, and rice.",qs:[
+["Choose the correctly written sentence.",["we visited Vietnam.","We visited Vietnam.","We visited vietnam","we visited vietnam"],1],
+["Which punctuation ends a question?",["Period (.)","Comma (,)","Question mark (?)","Exclamation mark (!)"],2],
+["Which sentence uses commas correctly?",["We saw boats fish and nets.","We saw boats, fish, and nets.","We saw, boats fish and nets.","We saw boats fish, and, nets."],1],
+["Choose the best punctuation: Wow__ this trip is amazing__",[". and .",", and !","? and ?", "! and ,"],1]]}
 ];
 const questions=levels.flatMap((l,li)=>l.qs.map((q,qi)=>({level:li,number:qi+1,prompt:q[0],choices:q[1],correct:q[2]})));
 const $=id=>document.getElementById(id);const storageKey='grade7-punctuation-quest-v1';
