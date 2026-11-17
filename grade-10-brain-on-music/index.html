@@ -64,14 +64,14 @@ $('next').addEventListener('click',()=>{
 $('back').addEventListener('click',()=>goto(state.stage-1));
 $('review').addEventListener('click',()=>{$('finish').classList.add('hidden');$('work').classList.remove('hidden');render()});
 $('play').addEventListener('click',()=>{
- if(movie.paused){const start=Number(stages[state.stage].dataset.start)||0;const end=Number(stages[state.stage].dataset.end)||372;if(movie.currentTime>=end-.25)movie.currentTime=start;movie.play().catch(e=>{$('videoError').textContent='Playback error: '+e.message})}
+ if(movie.paused){const start=Number(stages[state.stage].dataset.start)||0;const end=Number(stages[state.stage].dataset.end)||372;if(state.stage>=1&&state.stage<=5&&movie.currentTime>=end-.25)movie.currentTime=start;movie.play().catch(e=>{if(e.name!=='AbortError')$('videoError').textContent='Playback error: '+e.message})}
  else movie.pause()
 });
 $('rewind').addEventListener('click',()=>{movie.currentTime=Math.max(0,movie.currentTime-10)});
 $('cc').addEventListener('click',()=>{state.cc=!state.cc;try{for(const t of movie.textTracks)t.mode=state.cc?'showing':'hidden'}catch(e){}render()});
 movie.addEventListener('loadedmetadata',()=>{$('videoError').textContent='Video loaded ('+Math.round(movie.duration)+' seconds).';try{for(const t of movie.textTracks)t.mode=state.cc?'showing':'hidden'}catch(e){}});
 movie.addEventListener('error',()=>{$('videoError').textContent='Video error code '+(movie.error?movie.error.code:'unknown')+'. Please notify your teacher.'});
-movie.addEventListener('timeupdate',()=>{if(!movie.seeking)state.watched=Math.max(state.watched,movie.currentTime);const active=stages[state.stage];const end=Number(active.dataset.end);if(state.stage>=1&&state.stage<=5&&movie.currentTime>=end){movie.pause();movie.currentTime=end} $('watchbar').style.width=Math.min(100,state.watched/372*100)+'%';save()});
+movie.addEventListener('timeupdate',()=>{if(!movie.seeking)state.watched=Math.max(state.watched,movie.currentTime);const active=stages[state.stage];const end=Number(active.dataset.end);if(state.stage>=1&&state.stage<=5&&end>0&&movie.currentTime>=end-.05&&!movie.paused){movie.pause();movie.currentTime=end} $('watchbar').style.width=Math.min(100,state.watched/372*100)+'%';save()});
 movie.addEventListener('seeking',()=>{if(state.stage>=1&&state.stage<=5){const start=Number(stages[state.stage].dataset.start),end=Number(stages[state.stage].dataset.end);if(movie.currentTime<start-.5||movie.currentTime>end+.5)movie.currentTime=Math.max(start,Math.min(end,movie.currentTime))}});
 document.querySelectorAll('textarea[id^="q"]').forEach(t=>t.addEventListener('focus',()=>currentQuestion=Number(t.id.slice(1))));
 function horn(){try{const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),o=ctx.createOscillator(),g=ctx.createGain();o.type='sawtooth';o.frequency.value=350;g.gain.value=.13;o.connect(g);g.connect(ctx.destination);o.start();setTimeout(()=>{o.stop();ctx.close()},550)}catch(e){}}
